@@ -12,7 +12,7 @@ function BrandMark() {
   );
 }
 
-export function SiteHeader({ questionCount }: { questionCount?: number }) {
+export function SiteHeader({ questionCount }: { questionCount?: number | undefined }) {
   return (
     <header className="brand-gradient relative overflow-hidden text-brand-foreground">
       <div
