@@ -71,9 +71,9 @@ export const adminUpdateQuestion = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     await requireAdmin();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, boolean> = {};
-    if (typeof data.isAnswered === "boolean") patch["is_answered"] = data.isAnswered;
-    if (typeof data.isHidden === "boolean") patch["is_hidden"] = data.isHidden;
+    const patch: { is_answered?: boolean; is_hidden?: boolean } = {};
+    if (typeof data.isAnswered === "boolean") patch.is_answered = data.isAnswered;
+    if (typeof data.isHidden === "boolean") patch.is_hidden = data.isHidden;
     const { error } = await supabaseAdmin.from("questions").update(patch).eq("id", data.id);
     if (error) throw error;
     return { ok: true as const };
