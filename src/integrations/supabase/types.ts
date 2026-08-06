@@ -14,7 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      comment_likes: {
+        Row: {
+          comment_id: string
+          created_at: string
+          id: string
+          voter_token: string
+        }
+        Insert: {
+          comment_id: string
+          created_at?: string
+          id?: string
+          voter_token: string
+        }
+        Update: {
+          comment_id?: string
+          created_at?: string
+          id?: string
+          voter_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_likes_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comments: {
+        Row: {
+          author_token: string | null
+          body: string
+          created_at: string
+          id: string
+          is_hidden: boolean
+          nickname: string | null
+          question_id: string
+        }
+        Insert: {
+          author_token?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          is_hidden?: boolean
+          nickname?: string | null
+          question_id: string
+        }
+        Update: {
+          author_token?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          is_hidden?: boolean
+          nickname?: string | null
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_likes: {
+        Row: {
+          created_at: string
+          id: string
+          question_id: string
+          voter_token: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_id: string
+          voter_token: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_id?: string
+          voter_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_likes_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      questions: {
+        Row: {
+          author_token: string | null
+          body: string | null
+          category: string
+          created_at: string
+          id: string
+          is_answered: boolean
+          is_hidden: boolean
+          nickname: string | null
+          title: string
+        }
+        Insert: {
+          author_token?: string | null
+          body?: string | null
+          category: string
+          created_at?: string
+          id?: string
+          is_answered?: boolean
+          is_hidden?: boolean
+          nickname?: string | null
+          title: string
+        }
+        Update: {
+          author_token?: string | null
+          body?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          is_answered?: boolean
+          is_hidden?: boolean
+          nickname?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
