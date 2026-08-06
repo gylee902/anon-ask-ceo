@@ -59,29 +59,53 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-accent: var(--brand-accent);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-sans-stack);
+  --shadow-card: var(--shadow-card-value);
+  --shadow-lift: var(--shadow-lift-value);
 }
+
+/*
+ * BRAND / CI-BI SLOT
+ * ------------------------------------------------------------------
+ * 회사 CI/BI 확정 전까지 사용하는 중립 기업형 팔레트입니다.
+ * 로고와 브랜드 컬러를 받으면 아래 --brand* 토큰 값만 교체하면
+ * 전체 페이지에 일괄 반영됩니다.
+ */
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --font-sans-stack: "Pretendard Variable", Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
+
+  --brand: oklch(0.42 0.09 250);
+  --brand-foreground: oklch(0.99 0 0);
+  --brand-soft: oklch(0.95 0.02 250);
+  --brand-accent: oklch(0.63 0.14 200);
+
+  --background: oklch(0.985 0.003 250);
+  --surface: oklch(1 0 0);
+  --foreground: oklch(0.23 0.02 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.23 0.02 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.23 0.02 260);
+  --primary: oklch(0.42 0.09 250);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.96 0.008 250);
+  --secondary-foreground: oklch(0.3 0.03 258);
+  --muted: oklch(0.965 0.006 250);
+  --muted-foreground: oklch(0.53 0.02 258);
+  --accent: oklch(0.95 0.02 250);
+  --accent-foreground: oklch(0.35 0.06 252);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.915 0.008 255);
+  --input: oklch(0.9 0.01 255);
+  --ring: oklch(0.63 0.14 200);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -95,7 +119,11 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  --shadow-card-value: 0 1px 2px oklch(0.23 0.02 260 / 0.05), 0 8px 24px -16px oklch(0.23 0.02 260 / 0.25);
+  --shadow-lift-value: 0 2px 6px oklch(0.23 0.02 260 / 0.07), 0 18px 40px -22px oklch(0.23 0.02 260 / 0.35);
 }
+
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
@@ -140,5 +168,19 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans-stack);
+    -webkit-font-smoothing: antialiased;
   }
 }
+
+@utility brand-gradient {
+  background-image: linear-gradient(135deg, var(--brand) 0%, oklch(0.34 0.08 258) 55%, var(--brand-accent) 140%);
+}
+
+@utility card-surface {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card-value);
+}
+
