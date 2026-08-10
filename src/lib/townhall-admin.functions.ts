@@ -150,12 +150,18 @@ export const adminUpdateEvent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     await requireAdmin();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, unknown> = {};
-    if (typeof data.title === "string") patch["title"] = data.title.trim();
-    if (data.subtitle !== undefined) patch["subtitle"] = data.subtitle?.trim() || null;
-    if (data.description !== undefined) patch["description"] = data.description?.trim() || null;
-    if (typeof data.isOpen === "boolean") patch["is_open"] = data.isOpen;
-    if (typeof data.isPublished === "boolean") patch["is_published"] = data.isPublished;
+    const patch: {
+      title?: string;
+      subtitle?: string | null;
+      description?: string | null;
+      is_open?: boolean;
+      is_published?: boolean;
+    } = {};
+    if (typeof data.title === "string") patch.title = data.title.trim();
+    if (data.subtitle !== undefined) patch.subtitle = data.subtitle?.trim() || null;
+    if (data.description !== undefined) patch.description = data.description?.trim() || null;
+    if (typeof data.isOpen === "boolean") patch.is_open = data.isOpen;
+    if (typeof data.isPublished === "boolean") patch.is_published = data.isPublished;
     const { error } = await supabaseAdmin.from("events").update(patch).eq("id", data.id);
     if (error) throw error;
     return { ok: true as const };

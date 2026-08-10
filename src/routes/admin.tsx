@@ -65,7 +65,7 @@ function AdminPage() {
     try {
       const [evts, data] = await Promise.all([
         listEvents(),
-        list({ data: { eventId: id ?? eventId ?? undefined } }),
+        list({ data: (id ?? eventId) ? { eventId: (id ?? eventId) as string } : {} }),
       ]);
       setEvents(evts);
       setBoard(data);
@@ -76,7 +76,7 @@ function AdminPage() {
 
   async function selectEvent(id: string) {
     setEventId(id);
-    setBoard(await list({ data: { eventId: id || undefined } }));
+    setBoard(await list({ data: id ? { eventId: id } : {} }));
   }
 
   async function handleCreateEvent(e: React.FormEvent) {
@@ -322,9 +322,7 @@ function AdminPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    void updateQuestion({ data: { id: q.id, isAnswered: !q.is_answered } }).then(
-                      refresh,
-                    )
+                    void updateQuestion({ data: { id: q.id, isAnswered: !q.is_answered } }).then(() => refresh())
                   }
                   className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-brand/50"
                 >
