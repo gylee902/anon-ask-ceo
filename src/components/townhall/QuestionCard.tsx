@@ -85,11 +85,11 @@ export function QuestionCard({ question, comments, likeCount, liked, commentLike
         </span>
       </div>
 
-      <h3 className="mt-3 text-base font-semibold leading-snug text-foreground sm:text-lg">
+      <h3 className="mt-3 whitespace-pre-wrap break-words text-base font-semibold leading-snug text-foreground sm:text-lg">
         {question.title}
       </h3>
       {question.body && (
-        <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+        <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-muted-foreground">
           {question.body}
         </p>
       )}
@@ -144,10 +144,10 @@ export function QuestionCard({ question, comments, likeCount, liked, commentLike
             <p className="text-xs text-muted-foreground">아직 댓글이 없어요. 첫 의견을 남겨보세요.</p>
           )}
 
-          <div className="flex items-start gap-2">
+          <div className="grid gap-2 sm:flex sm:items-start">
             <textarea
               value={draft}
-              onChange={(e) => setDraft(e.target.value.slice(0, 1000))}
+              onChange={(e) => setDraft(e.target.value)}
               rows={2}
               placeholder="익명으로 의견을 더해주세요"
               className="min-h-[44px] flex-1 resize-y rounded-lg border border-input bg-surface px-3 py-2 text-sm outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-ring/30"
@@ -156,7 +156,7 @@ export function QuestionCard({ question, comments, likeCount, liked, commentLike
               type="button"
               disabled={sending || !draft.trim()}
               onClick={() => void submitComment()}
-              className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition disabled:opacity-40"
+              className="w-full shrink-0 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-brand-foreground transition disabled:opacity-40 sm:w-auto"
             >
               등록
             </button>
@@ -167,7 +167,7 @@ export function QuestionCard({ question, comments, likeCount, liked, commentLike
   );
 }
 
-export function QuestionComposer() {
+export function QuestionComposer({ eventId }: { eventId: string }) {
   const queryClient = useQueryClient();
   const [category, setCategory] = useState(CATEGORIES[0]!.key as string);
   const [title, setTitle] = useState("");
@@ -183,6 +183,7 @@ export function QuestionComposer() {
     }
     setSending(true);
     const { error } = await supabase.from("questions").insert({
+      event_id: eventId,
       category,
       title: trimmed,
       body: body.trim() || null,
@@ -224,27 +225,28 @@ export function QuestionComposer() {
       </div>
       <p className="mt-2 text-xs text-muted-foreground">예시: {hint}</p>
 
-      <input
+      <textarea
         value={title}
-        onChange={(e) => setTitle(e.target.value.slice(0, 200))}
-        placeholder="한 줄로 질문을 요약해주세요"
-        className="mt-4 w-full rounded-lg border border-input bg-surface px-3.5 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-ring/30"
+        rows={2}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="질문이나 의견을 자유롭게 적어주세요"
+        className="mt-4 w-full resize-y rounded-lg border border-input bg-surface px-3.5 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-ring/30"
       />
       <textarea
         value={body}
-        onChange={(e) => setBody(e.target.value.slice(0, 2000))}
+        onChange={(e) => setBody(e.target.value)}
         rows={3}
         placeholder="배경이나 상황을 덧붙이면 더 정확한 답변을 받을 수 있어요. (선택)"
         className="mt-2 w-full resize-y rounded-lg border border-input bg-surface px-3.5 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-ring/30"
       />
 
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <span className="text-xs text-muted-foreground">{title.length}/200</span>
+      <div className="mt-3 grid gap-3 sm:flex sm:items-center sm:justify-between">
+        <span className="text-xs text-muted-foreground">글자수 제한 없이 자유롭게 작성하세요</span>
         <button
           type="button"
           disabled={sending}
           onClick={() => void submit()}
-          className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground transition hover:opacity-90 disabled:opacity-40"
+          className="w-full rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition hover:opacity-90 disabled:opacity-40 sm:w-auto sm:py-2.5"
         >
           {sending ? "등록 중..." : "익명으로 등록"}
         </button>

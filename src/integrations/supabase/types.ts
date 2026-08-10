@@ -81,6 +81,42 @@ export type Database = {
           },
         ]
       }
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_open: boolean
+          is_published: boolean
+          slug: string
+          sort_order: number
+          subtitle: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_open?: boolean
+          is_published?: boolean
+          slug: string
+          sort_order?: number
+          subtitle?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_open?: boolean
+          is_published?: boolean
+          slug?: string
+          sort_order?: number
+          subtitle?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       question_likes: {
         Row: {
           created_at: string
@@ -116,6 +152,7 @@ export type Database = {
           body: string | null
           category: string
           created_at: string
+          event_id: string
           id: string
           is_answered: boolean
           is_hidden: boolean
@@ -127,6 +164,7 @@ export type Database = {
           body?: string | null
           category: string
           created_at?: string
+          event_id: string
           id?: string
           is_answered?: boolean
           is_hidden?: boolean
@@ -138,13 +176,22 @@ export type Database = {
           body?: string | null
           category?: string
           created_at?: string
+          event_id?: string
           id?: string
           is_answered?: boolean
           is_hidden?: boolean
           nickname?: string | null
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "questions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

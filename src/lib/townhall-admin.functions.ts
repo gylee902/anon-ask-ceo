@@ -48,11 +48,14 @@ export const adminStatus = createServerFn({ method: "GET" }).handler(async () =>
   return { isAdmin: session.data.isAdmin === true };
 });
 
-export const adminListQuestions = createServerFn({ method: "GET" }).handler(async () => {
+export const adminListQuestions = createServerFn({ method: "GET" })
+  .inputValidator((data?: { eventId?: string }) => data ?? {})
+  .handler(async ({ data }) => {
   await requireAdmin();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const questionQuery = supabaseAdmin.from("questions").select("*").order("created_at", { ascending: false });
   const [questions, comments, likes] = await Promise.all([
-    supabaseAdmin.from("questions").select("*").order("created_at", { ascending: false }),
+    data.eventId ? questionQuery.eq("event_id", data.eventId) : questionQuery,
     supabaseAdmin.from("comments").select("*").order("created_at", { ascending: true }),
     supabaseAdmin.from("question_likes").select("question_id"),
   ]);
@@ -98,6 +101,78 @@ export const adminDeleteQuestion = createServerFn({ method: "POST" })
     await requireAdmin();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("questions").delete().eq("id", data.id);
+    if (error) throw error;
+    return { ok: true as const };
+  });
+
+export const adminListEvents = createServerFn({ method: "GET" }).handler(async () => {
+  await requireAdmin();
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("events")
+    .select("*")
+    .order("sort_order", { ascending: false })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data ?? [];
+});
+
+export const adminCreateEvent = createServerFn({ method: "POST" })
+  .inputValidator((data: { slug: string; title: string; subtitle?: string; description?: string }) => data)
+  .handler(async ({ data }) => {
+    await requireAdmin();
+    const slug = (data.slug || "").trim().toLowerCase().replace(/[^a-z0-9-]/g, "-");
+    const title = (data.title || "").trim();
+    if (slug.length < 2 || title.length < 2) throw new Error("주소와 이름을 2자 이상 입력해주세요.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("events").insert({
+      slug,
+      title,
+      subtitle: data.subtitle?.trim() || null,
+      description: data.description?.trim() || null,
+      sort_order: Math.floor(Date.now() / 1000),
+    });
+    if (error) throw error;
+    return { ok: true as const };
+  });
+
+export const adminUpdateEvent = createServerFn({ method: "POST" })
+  .inputValidator(
+    (data: {
+      id: string;
+      title?: string;
+      subtitle?: string | null;
+      description?: string | null;
+      isOpen?: boolean;
+      isPublished?: boolean;
+    }) => data,
+  )
+  .handler(async ({ data }) => {
+    await requireAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const patch: {
+      title?: string;
+      subtitle?: string | null;
+      description?: string | null;
+      is_open?: boolean;
+      is_published?: boolean;
+    } = {};
+    if (typeof data.title === "string") patch.title = data.title.trim();
+    if (data.subtitle !== undefined) patch.subtitle = data.subtitle?.trim() || null;
+    if (data.description !== undefined) patch.description = data.description?.trim() || null;
+    if (typeof data.isOpen === "boolean") patch.is_open = data.isOpen;
+    if (typeof data.isPublished === "boolean") patch.is_published = data.isPublished;
+    const { error } = await supabaseAdmin.from("events").update(patch).eq("id", data.id);
+    if (error) throw error;
+    return { ok: true as const };
+  });
+
+export const adminDeleteEvent = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    await requireAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("events").delete().eq("id", data.id);
     if (error) throw error;
     return { ok: true as const };
   });
