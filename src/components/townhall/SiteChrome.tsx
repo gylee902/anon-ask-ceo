@@ -57,9 +57,9 @@ export function SiteHeader({
             <p className="mt-2 text-sm font-medium text-brand-foreground/80">{event.subtitle}</p>
           )}
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand-foreground/80 sm:text-base">
-            CEO에게 궁금한 점, 아쉬운 점, 제안하고 싶은 이야기까지 다양한 의견을 자유롭게
-            남겨주세요. 남겨주신 의견은 실시간으로 함께 공유되고, 공감이 많은 질문부터 타운홀에서
-            다룹니다.
+            CEO에게 궁금한 점, 제안하고 싶은 이야기 등 다양한 의견을 자유롭게 남겨주세요.
+            <br className="hidden sm:block" />
+            남겨주신 의견은 실시간으로 함께 공유되고, 공감이 많은 질문부터 타운홀에서 다룹니다.
           </p>
           {event?.description && (
             <p className="mt-3 max-w-2xl whitespace-pre-wrap text-sm leading-relaxed text-brand-foreground/70">
@@ -114,9 +114,10 @@ export function SiteFooter() {
   return (
     <footer className="mx-auto w-full max-w-5xl px-4 pb-14 pt-10 sm:px-8">
       <div className="rounded-xl border border-dashed border-border bg-muted/40 px-4 py-4 text-xs leading-relaxed text-muted-foreground sm:px-5">
-        작성자 이름, 사번, 이메일 등 개인을 식별할 수 있는 정보는 저장하지 않습니다. 다만 서로를
-        존중하는 표현으로 작성해주시고, 특정 개인을 지목하는 내용은 운영자에 의해 숨김 처리될 수
-        있습니다.
+        작성자 이름, 사번, 이메일 등 개인을 식별할 수 있는 정보는 저장하지 않습니다.
+        <br />
+        다만 서로를 존중하는 표현으로 작성해주시고, 특정 개인을 지목하는 내용은 운영자에 의해 숨김
+        처리될 수 있습니다.
       </div>
       <div className="mt-6 flex justify-center">
         <img src={biAsset.url} alt="기업문화혁신실 BI" className="h-9 w-auto opacity-70 sm:h-11" />
