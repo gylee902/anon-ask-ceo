@@ -96,7 +96,7 @@ function useRealtimeBoard() {
       void queryClient.invalidateQueries({ queryKey: ["townhall-events"] });
     };
     const channel = supabase
-      .channel("townhall-board")
+      .channel(`townhall-board-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "*", schema: "public", table: "events" }, invalidate)
       .on("postgres_changes", { event: "*", schema: "public", table: "questions" }, invalidate)
       .on("postgres_changes", { event: "*", schema: "public", table: "comments" }, invalidate)
