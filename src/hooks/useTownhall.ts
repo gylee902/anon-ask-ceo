@@ -104,7 +104,7 @@ function useRealtimeBoard() {
       .on("postgres_changes", { event: "*", schema: "public", table: "comment_likes" }, invalidate)
       .subscribe();
 
-    // Safety net: if a realtime message is missed (mobile背 sleep, network switch),
+    // Safety net: if a realtime message is missed (mobile sleep, network switch),
     // refresh when the tab becomes visible again and on a slow interval.
     const onVisible = () => {
       if (document.visibilityState === "visible") invalidate();
