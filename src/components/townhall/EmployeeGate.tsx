@@ -72,8 +72,8 @@ export function EmployeeGate({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <main className="mx-auto -mt-8 w-full max-w-md px-4 pb-14 sm:px-8">
-        <form onSubmit={handleSubmit} className="card-surface p-5 sm:p-6">
+      <main className="mx-auto -mt-10 w-full max-w-md px-4 pb-14 sm:px-8">
+        <form onSubmit={handleSubmit} className="card-surface p-5 pt-6 sm:p-6">
           <label htmlFor="employee-no" className="text-sm font-semibold text-foreground">
             사번
           </label>
