@@ -205,7 +205,7 @@ function AdminPage() {
             <input
               value={newSubtitle}
               onChange={(e) => setNewSubtitle(e.target.value)}
-              placeholder="부제 (선택)"
+              placeholder="대상 (예: 전 임직원)"
               className="rounded-lg border border-input bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
             <button
