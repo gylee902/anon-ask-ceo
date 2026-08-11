@@ -60,6 +60,7 @@ function AdminPage() {
   const [newSlug, setNewSlug] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newSubtitle, setNewSubtitle] = useState("");
+  const [audienceDraft, setAudienceDraft] = useState<Record<string, string>>({});
 
   async function refresh(id?: string) {
     try {
@@ -204,7 +205,7 @@ function AdminPage() {
             <input
               value={newSubtitle}
               onChange={(e) => setNewSubtitle(e.target.value)}
-              placeholder="부제 (선택)"
+              placeholder="대상 (예: 전 임직원)"
               className="rounded-lg border border-input bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
             <button
@@ -227,6 +228,30 @@ function AdminPage() {
                     /s/{ev.slug} · {ev.is_open ? "접수중" : "마감"} ·{" "}
                     {ev.is_published ? "공개" : "비공개"}
                   </p>
+                  <div className="mt-2 flex gap-2">
+                    <input
+                      value={audienceDraft[ev.id] ?? ev.subtitle ?? ""}
+                      onChange={(e) =>
+                        setAudienceDraft((prev) => ({ ...prev, [ev.id]: e.target.value }))
+                      }
+                      placeholder="대상 (예: 전 임직원)"
+                      className="w-full min-w-0 rounded-lg border border-input bg-surface px-3 py-2 text-xs outline-none focus:border-brand"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void updateEvent({
+                          data: { id: ev.id, subtitle: audienceDraft[ev.id] ?? ev.subtitle ?? "" },
+                        }).then(() => {
+                          toast.success("대상을 저장했습니다.");
+                          void refresh();
+                        })
+                      }
+                      className="shrink-0 rounded-lg border border-border px-3 py-2 font-medium"
+                    >
+                      대상 저장
+                    </button>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <button

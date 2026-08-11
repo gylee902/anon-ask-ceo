@@ -54,12 +54,14 @@ export function SiteHeader({
             CEO 타운홀 미팅 사전 Q&amp;A
           </h1>
           {event?.subtitle && (
-            <p className="mt-2 text-sm font-medium text-brand-foreground/80">{event.subtitle}</p>
+            <p className="mt-2 text-sm font-medium text-brand-foreground/80">
+              대상 : {event.subtitle}
+            </p>
           )}
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand-foreground/80 sm:text-base">
             CEO에게 궁금한 점, 제안하고 싶은 이야기 등 다양한 의견을 자유롭게 남겨주세요.
             <br className="hidden sm:block" />
-            남겨주신 의견은 실시간으로 함께 공유되고, 공감이 많은 질문부터 타운홀에서 다룹니다.
+            다음에 공감하는 게시물에는 좋아요와 댓글을 남겨주세요.
           </p>
           {event?.description && (
             <p className="mt-3 max-w-2xl whitespace-pre-wrap text-sm leading-relaxed text-brand-foreground/70">
