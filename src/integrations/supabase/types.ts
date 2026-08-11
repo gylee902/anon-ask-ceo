@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      authorized_employees: {
+        Row: {
+          created_at: string
+          employee_no: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          employee_no: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          employee_no?: string
+          id?: string
+        }
+        Relationships: []
+      }
       comment_likes: {
         Row: {
           comment_id: string
