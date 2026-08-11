@@ -60,6 +60,7 @@ function AdminPage() {
   const [newSlug, setNewSlug] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newSubtitle, setNewSubtitle] = useState("");
+  const [audienceDraft, setAudienceDraft] = useState<Record<string, string>>({});
 
   async function refresh(id?: string) {
     try {
