@@ -100,9 +100,9 @@ export function EmployeeGate({ children }: { children: ReactNode }) {
         </form>
 
         <div className="mt-4 rounded-xl border border-dashed border-border bg-muted/40 px-4 py-4 text-xs leading-relaxed text-muted-foreground sm:px-5">
-          8/10 임직원 명부 기준으로 생성되었습니다.
+          본 페이지의 열람 및 작성 권한은 8/10자 임직원 명부 기준으로 생성되었습니다.
           <br />
-          해당 페이지 열람이 어려우신 경우 기업문화팀으로 문의해주세요.
+          본 페이지의 접속이 안되는 경우 기업문화팀(02-3677-4353)으로 문의하시기 바랍니다.
         </div>
       </main>
     </div>
