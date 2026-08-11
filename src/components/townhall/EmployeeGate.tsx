@@ -54,7 +54,7 @@ export function EmployeeGate({ children }: { children: ReactNode }) {
           aria-hidden
           className="pointer-events-none absolute -right-24 -top-32 size-96 rounded-full bg-brand-foreground/10 blur-3xl"
         />
-        <div className="relative mx-auto flex w-full max-w-md flex-col items-center px-4 py-14 text-center sm:px-8">
+        <div className="relative mx-auto flex w-full max-w-md flex-col items-center px-4 pb-20 pt-12 text-center sm:px-8 sm:pb-24 sm:pt-14">
           <img
             src={ciAsset.url}
             alt="코오롱글로벌 CI"
